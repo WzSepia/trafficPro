@@ -4,12 +4,15 @@ const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
+    motto: '扫一扫结果返回：',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     canIUseGetUserProfile: false,
-    canIUseOpenData: wx.canIUse('open-data.type.userAvatarUrl') && wx.canIUse('open-data.type.userNickName') // 如需尝试获取用户信息可改为false
+    canIUseOpenData: wx.canIUse('open-data.type.userAvatarUrl') && wx.canIUse('open-data.type.userNickName'), // 如需尝试获取用户信息可改为false
+    latitude:'',//纬度
+    longitude:''//经度
+
   },
   // 事件处理函数
   bindViewTap() {
@@ -23,6 +26,18 @@ Page({
         canIUseGetUserProfile: true
       })
     }
+
+    //获取位置
+    wx.getLocation({
+      type: 'wgs84',
+      success: (res) => {
+        this.setData({
+          latitude : res.latitude, // 纬度
+          longitude : res.longitude // 经度
+        })
+        console.log(res);
+      }
+    })
   },
   getUserProfile(e) {
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
@@ -43,6 +58,20 @@ Page({
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
+    })
+  },
+  //扫一扫
+  scanFun(e){
+    wx.scanCode({
+      success: (res) => {
+        console.log(res)
+        this.setData({
+          motto:JSON.stringify(res)
+        })
+      },
+      error:(res)=>{
+        console.log(res)
+      }
     })
   }
 })

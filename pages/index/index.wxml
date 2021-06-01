@@ -17,7 +17,12 @@
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </block>
   </view>
+  <map longitude="{{longitude}}" latitude="{{latitude}}"></map>
+  <block>
+    <button bindtap="scanFun">扫哟扫</button>
+  </block>
   <view class="usermotto">
     <text class="user-motto">{{motto}}</text>
+    <text class="user-motto">{{}}</text>
   </view>
 </view>
